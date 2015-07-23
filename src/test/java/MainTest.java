@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.xml.crypto.KeySelector.Purpose;
+
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -23,8 +25,10 @@ public class MainTest {
 	CtSimpleType<?> buggyClass;
 	List<CtStatement> statements = new ArrayList<CtStatement>();
 	List<CtStatement> buggyStatements = new ArrayList<CtStatement>();
+	
+	List<CtSimpleType<?>> population = new ArrayList<CtSimpleType<?>>();
+	int pop_size = 10;
 
-	@Test
 	public void test() {
 		String[] spoon_args = { "-i", "src/main/java/", "-o", "src/main/java/" };
 		launcher.setArgs(spoon_args);
@@ -36,13 +40,16 @@ public class MainTest {
 
 		initClasses();
 		initStatements();
+		initPopulation();
 
 		while (true) {
 			JUnitCore junit = new JUnitCore();
 			Result result = junit.run(BuggyClassTest.class);
 			if (!result.wasSuccessful()) {
-				mutateBuggyClass();
+				//mutateBuggyClass();
 				writeBuggyClass();
+			} else {
+				break;
 			}
 		}
 	}
@@ -64,8 +71,19 @@ public class MainTest {
 			}
 		}
 	}
+	
+	private void initPopulation() {
+		Random rnd = new Random();
+		while (population.size() < pop_size) {
+			// pick a random class
+			CtSimpleType<?> candidate = buggyClass;
+			// mutate it
+			
+			// add it
+		}
+	}
 
-	private void mutateBuggyClass() {
+	private void mutateClass(CtSimpleType<?> candidate) {
 		Random rnd = new Random();
 		// randomly choose a line to insert
 		CtStatement newStatement = statements
