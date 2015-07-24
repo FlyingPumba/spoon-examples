@@ -45,7 +45,7 @@ public class ForEachWithRemoveProcessor extends spoon.processing.AbstractProcess
 	            
 	            // replace the remove with the add
 	            CtCodeSnippetStatement addSnippet = getFactory().Core().createCodeSnippetStatement();
-	            final java.lang.String value3 = java.lang.String.format(("toRemove.add(%s)"), element.getVariable().getType().getSimpleName());
+	            final java.lang.String value3 = java.lang.String.format(("toRemove.add(%s)"), element.getVariable().getSimpleName());
 	            addSnippet.setValue(value3);
 	            removeCall.replace(addSnippet);
 	            
